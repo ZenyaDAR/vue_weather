@@ -1,26 +1,42 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <fillter-city 
+  @city="fechCity"
+  />
+  <weather-card 
+  :tempcity="this.tempcity" 
+  :namecity="this.namecity" 
+  :speedwidcity="this.speedwidcity" 
+  />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+import FillterCity from './components/FillterCity'
+import WeatherCard from './components/WeatherCard'
+  export default {
+    components:{FillterCity,WeatherCard},
+    data(){
+      return{
+        tempcity:'',
+        namecity:'',
+        speedwidcity:'',
+      }
+    },
+    methods: {
+      fechCity(event){
+        fetch(event).then(response =>response.json()).then((res) =>{
+          console.log(res)
+          this.tempcity = Math.round(res.main.temp);
+          this.namecity = res.name;
+          this.speedwidcity = res.wind.speed
+        })
+      },
+    },
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body{
+  margin: 0;
+  padding: 10px;
 }
 </style>
